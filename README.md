@@ -3,13 +3,11 @@
 Projeto Perfil Profissional, implementado no módulo 2 do curso fábrica de programador
 em High Tech Cursos.
 
-
 Este projeto implementa uma **API** em **NodeJS**, utilizando *Express* como gerenciador de requisições **HTTP**, banco de dados não relacional **MongoDB** e o framework ODM **Mongoose** para intermediar a comunicação entre a aplicação e o banco de dados.
 
 O projeto trata-se de uma aplicação de gerenciamento de perfis profissionais e conexões entre eles. Portato é possível cadastrar perfis, conectar perfis e a comunicação entre perfis por meio de notificações.
 
 Este documento tem por objetivo detalhar os elementos presentes no projeto do Perfil Profissional, incluindo dependências, *scripts* de execução, definição de entidades e *endpoints*.
-
 
 # Entidades
 
@@ -30,7 +28,6 @@ certificacoes| Array< Certificacao >
 experiencias| Array< Experiencia >
 usuario | Usuario*
 conexoes| Array< Perfil >
-
 
 ## Notificacao
 
@@ -74,7 +71,6 @@ instituicao| String
 ingresso| Date
 conclusao| Date
 
-
 ### Usuario
 
 Atributo | Tipo
@@ -84,7 +80,6 @@ senha| String
 
 # Endpoints
 
-
 ## Perfil
 
 Recurso | Método | Autenticado? | Objetivo | Retorno
@@ -92,9 +87,8 @@ Recurso | Método | Autenticado? | Objetivo | Retorno
 /perfil | GET | Não | Últimos 5 perfis cadastrados | Lista de Perfis JSON
 /perfil/:id | GET | Não | Busca um perfil por ID | Perfil JSON
 /perfil | POST | Não | Cadastrar um perfil | Perfil JSON
-/perfil | PUT | Sim | Editar um perfil | Perfil JSON
+/perfil/:id | PUT | Sim | Editar um perfil | Perfil JSON
 /perfil/conexao | POST | Sim | Conecta dois perfis (Conexão/Amizade) | Mensagem JSON
-
 
 ## Login
 
