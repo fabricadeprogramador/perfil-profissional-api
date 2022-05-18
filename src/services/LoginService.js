@@ -1,31 +1,54 @@
-const perfilService = require("./PerfilService")
+const perfilModel = require("./../models/Perfil")
+const tokenUtil = require("./../utils/TokenUtil")
+const bcrypt = require("bcrypt")
 
 module.exports = {
-  autenticar: (req, res) => {
-    let usuario = req.body
+  autenticar: async (usuario) => {
+    try {
+      if (usuario.email && usuario.senha) {
+        let perfilEncontrado = await perfilModel
+          .findOne({
+            "usuario.email": usuario.email
+          })
+          .select("+usuario.senha")
+          .exec()
 
-    if (usuario.email && usuario.senha) {
-      let usuarioEncontrado = perfilService.perfis.find(
-        (perfil) =>
-          perfil.usuario.email == usuario.email &&
-          perfil.usuario.senha == usuario.senha
-      )
+        if (perfilEncontrado) {
+          const match = await bcrypt.compare(
+            usuario.senha,
+            perfilEncontrado.usuario.senha
+          )
 
-      if (usuarioEncontrado) {
-        let resposta = {}
-        resposta.perfil = usuarioEncontrado.id
-        resposta.token = "Fabricadeprogramador"
-
-        res.json(resposta)
+          if (match) {
+            const token = tokenUtil.gerarToken(
+              JSON.stringify(perfilEncontrado.usuario)
+            )
+            return {
+              token: token,
+              email: perfilEncontrado.usuario.email,
+              perfil: perfilEncontrado._id
+            }
+          } else {
+            throw {
+              status: 200,
+              message: "Erro ao efetuar login : Credenciais inválidas"
+            }
+          }
+        } else {
+          throw {
+            status: 200,
+            message: "Erro ao efetuar login : Credenciais inválidas"
+          }
+        }
       } else {
-        res.json({
-          message: "Erro ao efetuar login : Credenciais inválidas"
-        })
+        throw {
+          status: 400,
+          message: "Erro ao efetuar login : Faltando Credenciais"
+        }
       }
-    } else {
-      res.status(400).json({
-        message: "Erro ao efetuar login : Faltando Credenciais"
-      })
+    } catch (error) {
+      console.log(`ERRO: ${error.message}`)
+      throw error
     }
   }
 }
