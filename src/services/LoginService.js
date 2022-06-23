@@ -30,14 +30,14 @@ module.exports = {
             }
           } else {
             throw {
-              status: 200,
-              message: "Erro ao efetuar login : Credenciais inválidas"
+              status: 400,
+              message: "Erro ao efetuar login : Senha incorreta"
             }
           }
         } else {
           throw {
-            status: 200,
-            message: "Erro ao efetuar login : Credenciais inválidas"
+            status: 404,
+            message: "Erro ao efetuar login : Usuário não encontrado"
           }
         }
       } else {
