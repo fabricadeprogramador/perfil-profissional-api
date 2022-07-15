@@ -33,6 +33,10 @@ module.exports = {
 
   editar: async (id, perfil) => {
     try {
+      const { usuario } = await perfilModel.findOne({_id: id})
+      .select("usuario.senha")
+      .exec()
+      perfil.usuario.senha = usuario.senha
       return await perfilModel.updateOne({ _id: id }, perfil)
     } catch (error) {
       throw { message: error.message, status: 500 }

@@ -26,6 +26,7 @@ module.exports = {
             return {
               token: token,
               email: perfilEncontrado.usuario.email,
+              nome: perfilEncontrado.nome,
               perfil: perfilEncontrado._id
             }
           } else {
