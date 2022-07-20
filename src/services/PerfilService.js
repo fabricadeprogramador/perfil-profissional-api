@@ -54,8 +54,8 @@ module.exports = {
         remetente.conexoes.push(destinatario)
         destinatario.conexoes.push(remetente)
 
-        await perfilModel.updateOne({ _id: remetente._id }, remetente)
-        await perfilModel.updateOne({ _id: destinatario._id }, destinatario)
+        await perfilModel.updateOne({ _id: remetente._id }, { $set: { conexoes: remetente.conexoes }})
+        await perfilModel.updateOne({ _id: destinatario._id }, { $set: { conexoes: destinatario.conexoes }})
       }
 
       return { mensagem: "Conexão estabelecida com sucesso!", status: 200 }
